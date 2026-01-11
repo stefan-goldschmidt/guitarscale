@@ -16,7 +16,8 @@ const noteMap = {
     'A': 'A',
     'A#': 'A#',
     'Bb': 'A#',
-    'B': 'B'
+    'B': 'B',
+    'Cb': 'B' // Cb ist enharmonisch B
 };
 
 // Dur-Skala Intervallmuster (Ganzton, Ganzton, Halbton, Ganzton, Ganzton, Ganzton, Halbton)
@@ -24,6 +25,15 @@ const majorScaleIntervals = [2, 2, 1, 2, 2, 2, 1]; // in Halbtönen
 
 // Alle Noten in chromatischer Reihenfolge
 const chromaticNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+// Mapping für b-Tonarten
+const flatNoteDisplay = {
+    'C#': 'Db',
+    'D#': 'Eb',
+    'F#': 'Gb',
+    'G#': 'Ab',
+    'A#': 'Bb'
+};
 
 // Funktion zum Erstellen einer Dur-Skala aus einer Grundtonart
 function getMajorScale(rootNote) {
@@ -56,7 +66,12 @@ function highlightNotes(selectedKey, rootNoteOverride = null) {
     // Alle Highlights entfernen
     document.querySelectorAll('.fret-marker').forEach(marker => {
         marker.classList.remove('highlighted', 'root-note');
+        // Reset display text to original data-note
+        marker.style.setProperty('--display-note', `"${marker.getAttribute('data-note')}"`);
     });
+    
+    // Prüfen ob die Tonart b-Vorzeichen nutzt
+    const useFlats = selectedKey.includes('b') || selectedKey === 'F';
     
     // Skala für die gewählte Tonart erstellen
     const scale = getMajorScale(selectedKey);
@@ -72,6 +87,13 @@ function highlightNotes(selectedKey, rootNoteOverride = null) {
         
         if (normalizedScale.includes(normalizedNote)) {
             marker.classList.add('highlighted');
+            
+            // Dynamische Beschriftung anpassen
+            if (useFlats && flatNoteDisplay[normalizedNote]) {
+                marker.style.setProperty('--display-note', `"${flatNoteDisplay[normalizedNote]}"`);
+            } else {
+                marker.style.setProperty('--display-note', `"${normalizedNote}"`);
+            }
             
             // Grundton besonders hervorheben
             if (normalizedNote === rootNote) {

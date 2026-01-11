@@ -315,7 +315,7 @@ header {
 }
 
 .fret-marker::after {
-    content: attr(data-note);
+    content: var(--display-note, attr(data-note));
     position: absolute;
     opacity: 0;
     font-size: 1.1rem;
