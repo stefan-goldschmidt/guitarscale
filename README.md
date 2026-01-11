@@ -16,4 +16,6 @@ This project is a **Vibecoding** experiment. It was created to test and compare 
 
 ## Hosting
 
-The project is designed to be hosted as a static site (e.g., GitHub Pages, Vercel, or Netlify). Simply open `index.html` in any modern web browser to run it locally.
+The project is hosted on GitHub Pages: [https://stefan-goldschmidt.github.io/guitarscale/](https://stefan-goldschmidt.github.io/guitarscale/)
+
+You can also run it locally by simply opening `index.html` in any modern web browser.
