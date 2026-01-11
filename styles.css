@@ -1,0 +1,527 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: radial-gradient(circle at top right, #f8fafc, #f1f5f9);
+    min-height: 100vh;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    gap: 1rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -1px;
+    margin: 0;
+}
+
+.main-title span {
+    color: #3b82f6;
+    font-weight: 300;
+}
+
+.sticky-note {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 180px;
+    padding: 15px;
+    background: #fef9c3;
+    border: 1px solid #fde047;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.05);
+    transform: rotate(-2deg);
+    z-index: 1000;
+    font-size: 0.8rem;
+    color: #854d0e;
+    border-radius: 2px;
+}
+
+.sticky-note::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 20px;
+    background: rgba(255,255,255,0.4);
+}
+
+.circle-of-fifths {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.circle-of-fifths h2 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.circle-container {
+    position: relative;
+    width: 380px;
+    height: 380px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.key-group {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --radius: 145px;
+    --angle: calc(var(--i) * 30deg - 90deg);
+    transform: translate(-50%, -50%) rotate(var(--angle)) translate(var(--radius)) rotate(calc(-1 * var(--angle)));
+}
+
+.combo-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-divider {
+    width: 80%;
+    border: none;
+    border-top: 1px solid rgba(226, 232, 240, 0.6);
+    margin: 4px 0;
+}
+
+.major-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #334155;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.minor-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #94a3b8;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.combo-btn:hover {
+    background: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+.combo-btn.active {
+    background: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.combo-btn.active .major-label {
+    color: #2563eb;
+}
+
+.combo-btn.minor-active {
+    background: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.combo-btn.minor-active .minor-label {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.accidental {
+    position: absolute;
+    font-size: 0.6rem;
+    color: #94a3b8;
+    font-weight: 700;
+    --acc-radius: -65px;
+    transform: rotate(var(--angle)) translate(var(--acc-radius)) rotate(calc(-1 * var(--angle)));
+    pointer-events: none;
+}
+
+.fretboard-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fretboard-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+.open-fret-section {
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 1rem 1rem;
+    min-width: 80px;
+}
+
+.nut {
+    width: 8px;
+    background: linear-gradient(180deg, #78716c 0%, #57534e 100%);
+    border-left: 2px solid rgba(0, 0, 0, 0.2);
+    border-right: 2px solid rgba(0, 0, 0, 0.2);
+    box-shadow: -1px 0 2px rgba(0, 0, 0, 0.1), 1px 0 2px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.fretboard {
+    flex: 1;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.string {
+    display: flex;
+    position: relative;
+    margin-bottom: 0.25rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.open-fret-section .string::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.08) 50%, rgba(0, 0, 0, 0.15) 100%);
+    z-index: 1;
+}
+
+.fretboard .string::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.08) 50%, rgba(0, 0, 0, 0.15) 100%);
+    z-index: 1;
+}
+
+.fret-marker {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.open-fret-section .fret-marker {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+}
+
+.fretboard .string {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fretboard .fret-marker {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 auto;
+}
+
+.fret-marker.open {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.fret-marker.open::before {
+    content: none;
+}
+
+.fret-marker.open.highlighted {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+}
+
+.fret-marker.open.root-note {
+    background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+    border: none;
+    box-shadow: none;
+}
+
+.fret-marker::after {
+    content: attr(data-note);
+    position: absolute;
+    opacity: 0;
+    font-size: 1.1rem;
+    color: #ffffff;
+    font-weight: 900;
+    z-index: 3;
+}
+
+.fret-marker.highlighted::after,
+.fret-marker.root-note::after {
+    opacity: 1;
+}
+
+.fret-marker.highlighted {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transform: scale(1.05);
+}
+
+.fret-marker.highlighted::after {
+    color: #475569;
+}
+
+.fret-marker.root-note {
+    background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+    box-shadow: none;
+    transform: scale(1.2);
+    border: none;
+}
+
+.fret-marker.root-note::after {
+    color: #ffffff;
+}
+
+.fret-numbers {
+    display: flex;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.fret-numbers-section {
+    display: flex;
+}
+
+.fret-numbers-section:first-child {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 80px;
+    min-width: 80px;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.fret-numbers-spacer {
+    width: 8px;
+    flex-shrink: 0;
+}
+
+.fret-numbers-section:last-child {
+    flex: 1;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fret-number {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 600;
+    position: relative;
+}
+
+.fret-number.open-fret {
+    flex: 0;
+    width: 100%;
+}
+
+.fret-number.inlay::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    background: #475569;
+    border-radius: 50%;
+}
+
+.fret-number.inlay-double::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: calc(50% + 8px);
+    width: 5px;
+    height: 5px;
+    background: #475569;
+    border-radius: 50%;
+}
+
+.fret-number.inlay-double::before {
+    left: calc(50% - 8px);
+}
+
+.fret-number {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 600;
+    margin: 0 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        gap: 2rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .circle-container {
+        width: 350px;
+        height: 350px;
+    }
+    
+    .key-btn:nth-child(1) { transform: translate(-50%, -50%) rotate(270deg) translate(140px) rotate(-270deg); }
+    .key-btn:nth-child(2) { transform: translate(-50%, -50%) rotate(300deg) translate(140px) rotate(-300deg); }
+    .key-btn:nth-child(3) { transform: translate(-50%, -50%) rotate(330deg) translate(140px) rotate(-330deg); }
+    .key-btn:nth-child(4) { transform: translate(-50%, -50%) rotate(0deg) translate(140px) rotate(0deg); }
+    .key-btn:nth-child(5) { transform: translate(-50%, -50%) rotate(30deg) translate(140px) rotate(-30deg); }
+    .key-btn:nth-child(6) { transform: translate(-50%, -50%) rotate(60deg) translate(140px) rotate(-60deg); }
+    .key-btn:nth-child(7) { transform: translate(-50%, -50%) rotate(90deg) translate(140px) rotate(-90deg); }
+    .key-btn:nth-child(8) { transform: translate(-50%, -50%) rotate(120deg) translate(140px) rotate(-120deg); }
+    .key-btn:nth-child(9) { transform: translate(-50%, -50%) rotate(150deg) translate(140px) rotate(-150deg); }
+    .key-btn:nth-child(10) { transform: translate(-50%, -50%) rotate(180deg) translate(140px) rotate(-180deg); }
+    .key-btn:nth-child(11) { transform: translate(-50%, -50%) rotate(210deg) translate(140px) rotate(-210deg); }
+    .key-btn:nth-child(12) { transform: translate(-50%, -50%) rotate(240deg) translate(140px) rotate(-240deg); }
+    
+    .key-btn:nth-child(1):hover { transform: translate(-50%, -50%) rotate(270deg) translate(140px) rotate(-270deg) scale(1.05); }
+    .key-btn:nth-child(2):hover { transform: translate(-50%, -50%) rotate(300deg) translate(140px) rotate(-300deg) scale(1.05); }
+    .key-btn:nth-child(3):hover { transform: translate(-50%, -50%) rotate(330deg) translate(140px) rotate(-330deg) scale(1.05); }
+    .key-btn:nth-child(4):hover { transform: translate(-50%, -50%) rotate(0deg) translate(140px) rotate(0deg) scale(1.05); }
+    .key-btn:nth-child(5):hover { transform: translate(-50%, -50%) rotate(30deg) translate(140px) rotate(-30deg) scale(1.05); }
+    .key-btn:nth-child(6):hover { transform: translate(-50%, -50%) rotate(60deg) translate(140px) rotate(-60deg) scale(1.05); }
+    .key-btn:nth-child(7):hover { transform: translate(-50%, -50%) rotate(90deg) translate(140px) rotate(-90deg) scale(1.05); }
+    .key-btn:nth-child(8):hover { transform: translate(-50%, -50%) rotate(120deg) translate(140px) rotate(-120deg) scale(1.05); }
+    .key-btn:nth-child(9):hover { transform: translate(-50%, -50%) rotate(150deg) translate(140px) rotate(-150deg) scale(1.05); }
+    .key-btn:nth-child(10):hover { transform: translate(-50%, -50%) rotate(180deg) translate(140px) rotate(-180deg) scale(1.05); }
+    .key-btn:nth-child(11):hover { transform: translate(-50%, -50%) rotate(210deg) translate(140px) rotate(-210deg) scale(1.05); }
+    .key-btn:nth-child(12):hover { transform: translate(-50%, -50%) rotate(240deg) translate(140px) rotate(-240deg) scale(1.05); }
+    
+    .key-btn.active:nth-child(1) { transform: translate(-50%, -50%) rotate(270deg) translate(140px) rotate(-270deg) scale(1.1); }
+    .key-btn.active:nth-child(2) { transform: translate(-50%, -50%) rotate(300deg) translate(140px) rotate(-300deg) scale(1.1); }
+    .key-btn.active:nth-child(3) { transform: translate(-50%, -50%) rotate(330deg) translate(140px) rotate(-330deg) scale(1.1); }
+    .key-btn.active:nth-child(4) { transform: translate(-50%, -50%) rotate(0deg) translate(140px) rotate(0deg) scale(1.1); }
+    .key-btn.active:nth-child(5) { transform: translate(-50%, -50%) rotate(30deg) translate(140px) rotate(-30deg) scale(1.1); }
+    .key-btn.active:nth-child(6) { transform: translate(-50%, -50%) rotate(60deg) translate(140px) rotate(-60deg) scale(1.1); }
+    .key-btn.active:nth-child(7) { transform: translate(-50%, -50%) rotate(90deg) translate(140px) rotate(-90deg) scale(1.1); }
+    .key-btn.active:nth-child(8) { transform: translate(-50%, -50%) rotate(120deg) translate(140px) rotate(-120deg) scale(1.1); }
+    .key-btn.active:nth-child(9) { transform: translate(-50%, -50%) rotate(150deg) translate(140px) rotate(-150deg) scale(1.1); }
+    .key-btn.active:nth-child(10) { transform: translate(-50%, -50%) rotate(180deg) translate(140px) rotate(-180deg) scale(1.1); }
+    .key-btn.active:nth-child(11) { transform: translate(-50%, -50%) rotate(210deg) translate(140px) rotate(-210deg) scale(1.1); }
+    .key-btn.active:nth-child(12) { transform: translate(-50%, -50%) rotate(240deg) translate(140px) rotate(-240deg) scale(1.1); }
+
+    .key-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        min-width: 50px;
+    }
+
+    .fretboard-wrapper {
+        flex-direction: column;
+    }
+
+    .open-fret-section {
+        min-width: auto;
+        padding: 1.5rem 0.5rem;
+    }
+
+    .fretboard {
+        padding: 1.5rem 0.5rem;
+    }
+
+    .fret-marker {
+        width: 40px;
+        height: 40px;
+    }
+
+    .fret-marker {
+        height: 40px;
+        font-size: 0.7rem;
+    }
+
+    .fret-number {
+        font-size: 0.65rem;
+    }
+}
